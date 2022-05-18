@@ -1,53 +1,56 @@
 <?php
 
 /** @var yii\web\View $this */
+/** @var \app\models\Category $selectedCategory */
+/** @var \app\models\Category[] $categories */
+/** @var \app\models\News[] $news */
+/** @var \yii\data\Pagination $pagination */
+/** @var string $dateSort */
 
-$this->title = 'My Yii Application';
+use yii\web\View;
+use yii\widgets\LinkPager;
+use yii\widgets\Pjax;
+
+$this->title = 'Новостной портал';
+
+if ($dateSort) {
+    $this->registerJs('window.dateSort = "' . $dateSort . '";',View::POS_HEAD);
+}
 ?>
 <div class="site-index">
 
-    <div class="jumbotron text-center bg-transparent">
-        <h1 class="display-4">Congratulations!</h1>
-
-        <p class="lead">You have successfully created your Yii-powered application.</p>
-
-        <p><a class="btn btn-lg btn-success" href="http://www.yiiframework.com">Get started with Yii</a></p>
-    </div>
-
-    <div class="body-content">
-
-        <div class="row">
-            <div class="col-lg-4">
-                <h2>Heading</h2>
-
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
-                    dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
-                    ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
-                    fugiat nulla pariatur.</p>
-
-                <p><a class="btn btn-outline-secondary" href="http://www.yiiframework.com/doc/">Yii Documentation &raquo;</a></p>
+    <div id="news">
+        <div id="news-container" class="container">
+            <div id="news-title">Выберите категорию новости</div>
+            <div class="buttons-kinds">
+                <button class="btn btn-primary <?= !$selectedCategory ? 'active' : '' ?>" data-category="">Все</button>
+                <?php foreach ($categories as $category) : ?>
+                    <button class="btn btn-primary <?= ($selectedCategory && ($selectedCategory->name === $category->name) ? 'active' :
+                        '') ?>" data-category="<?= $category->name ?>"><?= $category->title ?></button>
+                <?php endforeach; ?>
             </div>
-            <div class="col-lg-4">
-                <h2>Heading</h2>
+            <label id="date-sort-block">
+                Сортировать новости по дате
+                <select name="date" id="date-sort">
+                    <option value="DESC">По возрастанию (сначала новые)</option>
+                    <option value="ASC" <?= $dateSort === 'ASC' ? 'selected' : ''?>>По возрастанию (сначала старые)</option>
+                </select>
+            </label>
 
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
-                    dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
-                    ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
-                    fugiat nulla pariatur.</p>
+            <?php Pjax::begin(['id' => 'news-pjax']); ?>
 
-                <p><a class="btn btn-outline-secondary" href="http://www.yiiframework.com/forum/">Yii Forum &raquo;</a></p>
+            <div id="news-items">
+                <?php foreach ($news as $currentNews) : ?>
+                    <?= $this->render('partials/_news', [
+                        'news' => $currentNews
+                    ]) ?>
+                <?php endforeach; ?>
             </div>
-            <div class="col-lg-4">
-                <h2>Heading</h2>
-
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
-                    dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
-                    ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
-                    fugiat nulla pariatur.</p>
-
-                <p><a class="btn btn-outline-secondary" href="http://www.yiiframework.com/extensions/">Yii Extensions &raquo;</a></p>
-            </div>
+            <?= LinkPager::widget([
+                'pagination' => $pagination,
+                'registerLinkTags' => true
+            ]); ?>
+            <?php Pjax::end(); ?>
         </div>
-
     </div>
 </div>

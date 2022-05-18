@@ -1,3 +1,15 @@
+body {
+    background-color: #d1d6e1;
+}
+
+.navbar-nav {
+    width: 100%;
+}
+
+.navbar-nav li.logout {
+    margin-left: auto;
+}
+
 main > .container {
     padding: 70px 15px 20px;
 }
