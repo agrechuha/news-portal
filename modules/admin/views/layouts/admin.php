@@ -9,7 +9,7 @@ use yii\helpers\Html;
 use yii\helpers\Url;
 
 $directoryAsset = yiister\gentelella\assets\Asset::register($this);
-//\app\assets\AppAsset::register($this);
+\app\assets\AdminPanelAsset::register($this);
 
 ?>
 <?php $this->beginPage(); ?>

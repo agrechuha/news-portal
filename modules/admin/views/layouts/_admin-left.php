@@ -6,7 +6,7 @@ $userName = Yii::$app->user->identity ? Yii::$app->user->identity->name : 'Не�
 <div class="col-md-3 left_col">
     <div class="left_col scroll-view">
         <div class="navbar nav_title" style="border: 0;">
-            <a href="/" class="site_title"><i class="fa fa-paw"></i> <span>Новостной портал</span></a>
+            <a href="/" class="site_title"><i class="fa fa-paw"></i> <span>На главную</span></a>
         </div>
         <div class="clearfix"></div>
         <!-- menu prile quick info -->
@@ -31,13 +31,5 @@ $userName = Yii::$app->user->identity ? Yii::$app->user->identity->name : 'Не�
             </div>
         </div>
         <!-- /sidebar menu -->
-        <!-- /menu footer buttons -->
-        <div class="sidebar-footer hidden-small">
-            <a href="<?= Url::toRoute(['site/logout']) ?>" class="logout-button" data-toggle="tooltip" data-placement="top"
-               title="Выйти">
-                <span class="glyphicon glyphicon-off" aria-hidden="true"></span>
-            </a>
-        </div>
-        <!-- /menu footer buttons -->
     </div>
 </div>
