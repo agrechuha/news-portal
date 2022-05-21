@@ -2,6 +2,8 @@
 
 namespace app\controllers;
 
+use app\helpers\MenuHelper;
+use app\models\Category;
 use Yii;
 use yii\helpers\Html;
 use yii\web\Controller;
@@ -20,6 +22,19 @@ class BaseController extends Controller
         $menuItems = [
             ['label' => 'Главная', 'url' => ['/site/index']],
         ];
+
+        $rootCategories = Category::findAll(['parent_id' => null]);
+
+        if ($rootCategories) {
+            $menuItemCategories = [
+                'label' => 'Категории', 'url' => '#', 'items' => []
+            ];
+            foreach ($rootCategories as $rootCategory) {
+                $rootCategory->populateTree();
+                $menuItemCategories['items'][] = MenuHelper::getHtmlCategoriesMenu($rootCategory) ;
+            }
+            $menuItems[] = $menuItemCategories;
+        }
 
         if (Yii::$app->user->isGuest) {
             $menuItems[] = ['label' => 'Авторизоваться', 'url' => ['/site/login']];

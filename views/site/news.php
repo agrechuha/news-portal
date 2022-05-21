@@ -5,6 +5,7 @@
 /** @var Comment[] $comments */
 /** @var \yii\data\Pagination $commentsPagination */
 
+use app\assets\CurrentNewsAsset;
 use app\models\Comment;
 use app\models\News;
 use vova07\imperavi\Widget;
@@ -15,11 +16,16 @@ use yii\widgets\Pjax;
 
 $this->title = $news->title;
 
-\app\assets\CurrentNewsAsset::register($this);
+CurrentNewsAsset::register($this);
 ?>
 <div class="site-index">
     <div id="news">
         <h1><?= $news->title ?></h1>
+        <div class="news-details">
+            <div class="category">Категория: <?= $news->category->title?></div>
+            <div class="date"><?= Yii::$app->formatter->asDatetime($news->created,
+                    'dd MMMM y, HH:mm') ?></div>
+        </div>
         <div class="news-text">
             <?= $news->text ?>
         </div>

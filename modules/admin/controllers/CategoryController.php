@@ -6,7 +6,6 @@ use app\models\Category;
 use app\models\CategorySearch;
 use Yii;
 use yii\helpers\ArrayHelper;
-use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
@@ -27,6 +26,7 @@ class CategoryController extends BaseController
                     'class' => VerbFilter::className(),
                     'actions' => [
                         'delete' => ['POST'],
+                        'makeRoot' => ['POST'],
                     ],
                 ],
             ]
@@ -104,6 +104,13 @@ class CategoryController extends BaseController
         ]);
     }
 
+    public function actionMakeRoot($id) {
+        $model = $this->findModel($id);
+        $model->parent_id = null;
+        $model->makeRoot()->save();
+        return $this->redirect(['view', 'id' => $model->id]);
+    }
+
     /**
      * Deletes an existing Category model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
@@ -113,7 +120,12 @@ class CategoryController extends BaseController
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
+        $model = $this->findModel($id);
+        if ($model->parent_id) {
+            $model->delete();
+        } else {
+            $model->deleteWithChildren();
+        }
 
         return $this->redirect(['index']);
     }
@@ -146,7 +158,7 @@ class CategoryController extends BaseController
         if (Yii::$app->request->isAjax) {
             if (!is_null($q)) {
                 $results = Category::find()
-                    ->where(['like', 'name', $q])
+                    ->where(['or', ['like', 'name', $q], ['like', 'title', $q]])
                     ->all();
 
                 if ($results) {
@@ -154,7 +166,7 @@ class CategoryController extends BaseController
                         'app\models\Category' => [
                             'id',
                             'text' => function ($model) {
-                                return $model->name;
+                                return $model->title;
                             },
                         ],
                     ]);

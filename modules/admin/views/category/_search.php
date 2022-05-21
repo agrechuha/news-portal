@@ -19,15 +19,11 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'parent_id') ?>
 
-    <?= $form->field($model, 'tree') ?>
+    <?= $form->field($model, 'sort') ?>
 
-    <?= $form->field($model, 'lft') ?>
+    <?= $form->field($model, 'name') ?>
 
-    <?= $form->field($model, 'rgt') ?>
-
-    <?php // echo $form->field($model, 'depth') ?>
-
-    <?php // echo $form->field($model, 'name') ?>
+    <?= $form->field($model, 'title') ?>
 
     <?php // echo $form->field($model, 'created') ?>
 

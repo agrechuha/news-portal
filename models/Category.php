@@ -3,6 +3,7 @@
 namespace app\models;
 
 use app\helpers\StringHelper;
+use paulzi\adjacencyList\AdjacencyListBehavior;
 use Yii;
 
 /**
@@ -10,10 +11,7 @@ use Yii;
  *
  * @property int $id
  * @property int|null $parent_id
- * @property int $tree
- * @property int $lft
- * @property int $rgt
- * @property int $depth
+ * @property int $sort
  * @property string $name
  * @property string $title
  * @property string $created
@@ -23,6 +21,16 @@ use Yii;
  */
 class Category extends \yii\db\ActiveRecord
 {
+
+    public function behaviors()
+    {
+        return [
+            [
+                'class' => AdjacencyListBehavior::class,
+            ],
+        ];
+    }
+
     /**
      * {@inheritdoc}
      */
@@ -31,25 +39,16 @@ class Category extends \yii\db\ActiveRecord
         return 'category';
     }
 
-    public function beforeSave($insert)
-    {
-        if (parent::beforeSave($insert)) {
-            $this->name = StringHelper::generateTransliteration($this->title, __CLASS__, 'name');
-            return true;
-        } else {
-            return false;
-        }
-    }
-
     /**
      * {@inheritdoc}
      */
     public function rules()
     {
         return [
-            [['parent_id', 'tree', 'lft', 'rgt', 'depth'], 'integer'],
-            [['tree', 'lft', 'rgt', 'depth', 'title'], 'required'],
+            [['parent_id', 'sort'], 'integer'],
+            [['title'], 'required'],
             [['created', 'updated'], 'safe'],
+            [['sort'], 'number'],
             [['name', 'title'], 'string', 'max' => 255],
         ];
     }
@@ -62,15 +61,38 @@ class Category extends \yii\db\ActiveRecord
         return [
             'id' => 'ID',
             'parent_id' => 'Родитель',
-            'tree' => 'Дерево',
-            'lft' => 'Lft',
-            'rgt' => 'Rgt',
-            'depth' => 'Depth',
+            'sort' => 'Сортировка',
             'name' => 'Название',
             'title' => 'Заголовок',
             'created' => 'Создано',
             'updated' => 'Обновлено',
         ];
+    }
+
+    public function beforeSave($insert): bool
+    {
+        if ($this->isNewRecord || !$this->name) {
+            $this->name = StringHelper::generateTransliteration($this->title, __CLASS__, 'name');
+        }
+        if (empty($this->parent_id)) {
+            $this->makeRoot();
+        } else if ($parent = Category::findOne(['id' => $this->parent_id])) {
+            $this->prependTo($parent);
+        }
+        if (parent::beforeSave($insert)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public static function find()
+    {
+        return new CategoryQuery(get_called_class());
+    }
+
+    public static function getRootList() {
+        return self::find()->roots()->with('children')->all();
     }
 
     /**

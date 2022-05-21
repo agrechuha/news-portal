@@ -1,5 +1,6 @@
 <?php
 
+use app\models\Category;
 use app\models\User;
 use yii\db\Migration;
 
@@ -48,15 +49,14 @@ class m220513_230341_init_app extends Migration
         $this->createTable('{{%category}}', [
             'id' => $this->primaryKey(),
             'parent_id' => $this->integer()->null(),
-            'tree' => $this->integer()->notNull(),
-            'lft' => $this->integer()->notNull(),
-            'rgt' => $this->integer()->notNull(),
-            'depth' => $this->integer()->notNull(),
+            'sort' => $this->integer()->notNull(),
             'name' => $this->string()->notNull(),
             'title' => $this->string()->notNull(),
             'created' => 'TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP',
             'updated' => 'TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP',
         ], $tableOptions);
+        $this->createIndex('parent_sort', '{{%category}}', ['parent_id', 'sort']);
+        $this->createIndex('category_name', '{{%category}}', 'name');
 
         $this->createTable('{{%comment}}', [
             'id' => $this->primaryKey(),
@@ -80,6 +80,176 @@ class m220513_230341_init_app extends Migration
         $user->active = 1;
         $user->is_admin = 1;
         $user->save();
+
+        $sportCategory = new Category();
+        $sportCategory->title = 'Спорт';
+        $sportCategory->save();
+
+        $ItCategory = new Category();
+        $ItCategory->title = 'Айти';
+        $ItCategory->save();
+
+        $footballCategory = new Category();
+        $footballCategory->parent_id = $sportCategory->id;
+        $footballCategory->title = 'Футбол';
+        $footballCategory->save();
+
+        $basketballCategory = new Category();
+        $basketballCategory->parent_id = $sportCategory->id;
+        $basketballCategory->title = 'Баскетбол';
+        $basketballCategory->save();
+
+        $tennisCategory = new Category();
+        $tennisCategory->parent_id = $sportCategory->id;
+        $tennisCategory->title = 'Теннис';
+        $tennisCategory->save();
+
+        $frontendCategory = new Category();
+        $frontendCategory->parent_id = $ItCategory->id;
+        $frontendCategory->title = 'Фронтенд';
+        $frontendCategory->save();
+
+        $backendCategory = new Category();
+        $backendCategory->parent_id = $ItCategory->id;
+        $backendCategory->title = 'Бэкенд';
+        $backendCategory->save();
+
+        $newsArray = [
+            [
+                'category_id' => $footballCategory->id,
+                'title' => 'Первая новость про футбол',
+                'description' => 'Короткое описание первой новости про футбол вот такое',
+                'text' => 'Текст первой новости про футбол',
+                'url' => 'pervaya_novost_pro_futbol',
+                'active' => 1,
+            ],
+            [
+                'category_id' => $footballCategory->id,
+                'title' => 'Вторая новость про футбол',
+                'description' => 'Короткое описание второй новости про футбол вот такое',
+                'text' => 'Текст второй новости про футбол',
+                'url' => 'vtoraya_novost_pro_futbol',
+                'active' => 1,
+            ],
+            [
+                'category_id' => $footballCategory->id,
+                'title' => 'Третья новость про футбол',
+                'description' => 'Короткое описание третьей новости про футбол вот такое',
+                'text' => 'Текст третьей новости про футбол',
+                'url' => 'tretya_novost_pro_futbol',
+                'active' => 1,
+            ],
+            [
+                'category_id' => $basketballCategory->id,
+                'title' => 'Первая новость про баскетбол',
+                'description' => 'Короткое описание первой новости про баскетбол вот такое',
+                'text' => 'Текст первой новости про баскетбол',
+                'url' => 'pervaya_novost_pro_basketbol',
+                'active' => 1,
+            ],
+            [
+                'category_id' => $basketballCategory->id,
+                'title' => 'Вторая новость про баскетбол',
+                'description' => 'Короткое описание второй новости про баскетбол вот такое',
+                'text' => 'Текст второй новости про баскетбол',
+                'url' => 'vtoraya_novost_pro_basketbol',
+                'active' => 1,
+            ],
+            [
+                'category_id' => $basketballCategory->id,
+                'title' => 'Третья новость про баскетбол',
+                'description' => 'Короткое описание третьей новости про баскетбол вот такое',
+                'text' => 'Текст третьей новости про баскетбол',
+                'url' => 'tretya_novost_pro_basketbol',
+                'active' => 1,
+            ],
+            [
+                'category_id' => $tennisCategory->id,
+                'title' => 'Первая новость про теннис',
+                'description' => 'Короткое описание первой новости про теннис вот такое',
+                'text' => 'Текст первой новости про теннис',
+                'url' => 'pervaya_novost_pro_tennis',
+                'active' => 1,
+            ],
+            [
+                'category_id' => $tennisCategory->id,
+                'title' => 'Вторая новость про теннис',
+                'description' => 'Короткое описание второй новости про теннис вот такое',
+                'text' => 'Текст второй новости про теннис',
+                'url' => 'vtoraya_novost_pro_tennis',
+                'active' => 1,
+            ],
+            [
+                'category_id' => $tennisCategory->id,
+                'title' => 'Третья новость про теннис',
+                'description' => 'Короткое описание третьей новости про теннис вот такое',
+                'text' => 'Текст третьей новости про теннис',
+                'url' => 'tretya_novost_pro_tennis',
+                'active' => 1,
+            ],
+            [
+                'category_id' => $tennisCategory->id,
+                'title' => 'Четвертая новость про теннис',
+                'description' => 'Короткое описание четвертой новости про теннис вот такое',
+                'text' => 'Текст четвертой новости про теннис',
+                'url' => 'chentvertaya_novost_pro_tennis',
+                'active' => 1,
+            ],
+            [
+                'category_id' => $frontendCategory->id,
+                'title' => 'Первая новость про фронтенд',
+                'description' => 'Короткое описание первой новости про фронтенд вот такое',
+                'text' => 'Текст первой новости про фронтенд',
+                'url' => 'pervaya_novost_pro_frontend',
+                'active' => 1,
+            ],
+            [
+                'category_id' => $frontendCategory->id,
+                'title' => 'Вторая новость про фронтенд',
+                'description' => 'Короткое описание второй новости про фронтенд вот такое',
+                'text' => 'Текст второй новости про фронтенд',
+                'url' => 'vtoraya_novost_pro_frontend',
+                'active' => 1,
+            ],
+            [
+                'category_id' => $frontendCategory->id,
+                'title' => 'Третья новость про фронтенд',
+                'description' => 'Короткое описание третьей новости про фронтенд вот такое',
+                'text' => 'Текст третьей новости про фронтенд',
+                'url' => 'tretya_novost_pro_frontend',
+                'active' => 1,
+            ],
+            [
+                'category_id' => $frontendCategory->id,
+                'title' => 'Четвертая новость про фронтенд',
+                'description' => 'Короткое описание четвертой новости про фронтенд вот такое',
+                'text' => 'Текст четвертой новости про фронтенд',
+                'url' => 'chentvertaya_novost_pro_frontend',
+                'active' => 1,
+            ],
+            [
+                'category_id' => $backendCategory->id,
+                'title' => 'Первая новость про бэкенд',
+                'description' => 'Короткое описание первой новости про бэкенд вот такое',
+                'text' => 'Текст первой новости про бэкенд',
+                'url' => 'pervaya_novost_pro_backend',
+                'active' => 1,
+            ],
+            [
+                'category_id' => $backendCategory->id,
+                'title' => 'Вторая новость про бэкенд',
+                'description' => 'Короткое описание второй новости про бэкенд вот такое',
+                'text' => 'Текст второй новости про бэкенд',
+                'url' => 'vtoraya_novost_pro_backend',
+                'active' => 1,
+            ],
+        ];
+
+        $db = Yii::$app->db;
+        $sql = $db->queryBuilder->batchInsert('news',
+            ['category_id', 'title', 'description', 'text', 'url', 'active'], $newsArray);
+        $db->createCommand($sql)
+            ->execute();
     }
 
     /**

@@ -12,12 +12,9 @@ $(document).ready(function () {
         });
     });
 
-    $('.buttons-kinds .btn').on('click', function (e) {
+    $('.category-menu-link').on('click', function (e) {
         let $this = $(this);
         let categoryName = $this.data('category');
-
-        $('.buttons-kinds .btn').removeClass('active');
-        $this.addClass('active');
 
         let url = categoryName ? '/category/' + categoryName :  '/';
         if (dateSortVal) {
@@ -28,5 +25,6 @@ $(document).ready(function () {
             type: 'GET',
             url,
         });
+        return e.preventDefault();
     })
 })

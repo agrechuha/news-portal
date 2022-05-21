@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "826cda9560145c4da45b833cea4aca4c",
+    "content-hash": "0abd9b3929c1f7272926c8395a0e50e4",
     "packages": [
         {
             "name": "bower-asset/bootstrap",
@@ -183,6 +183,50 @@
                 "source": "https://github.com/cebe/markdown"
             },
             "time": "2018-03-26T11:24:36+00:00"
+        },
+        {
+            "name": "creocoder/yii2-nested-sets",
+            "version": "0.9.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/creocoder/yii2-nested-sets.git",
+                "reference": "cb8635a459b6246e5a144f096b992dcc30cf9954"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/creocoder/yii2-nested-sets/zipball/cb8635a459b6246e5a144f096b992dcc30cf9954",
+                "reference": "cb8635a459b6246e5a144f096b992dcc30cf9954",
+                "shasum": ""
+            },
+            "require": {
+                "yiisoft/yii2": "*"
+            },
+            "type": "yii2-extension",
+            "autoload": {
+                "psr-4": {
+                    "creocoder\\nestedsets\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Alexander Kochetov",
+                    "email": "creocoder@gmail.com"
+                }
+            ],
+            "description": "The nested sets behavior for the Yii framework",
+            "keywords": [
+                "nested sets",
+                "yii2"
+            ],
+            "support": {
+                "issues": "https://github.com/creocoder/yii2-nested-sets/issues",
+                "source": "https://github.com/creocoder/yii2-nested-sets/tree/master"
+            },
+            "time": "2015-01-27T10:53:51+00:00"
         },
         {
             "name": "doctrine/lexer",
@@ -673,6 +717,105 @@
                 "source": "https://github.com/paragonie/random_compat"
             },
             "time": "2020-10-15T08:29:30+00:00"
+        },
+        {
+            "name": "paulzi/yii2-adjacency-list",
+            "version": "v2.2.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/paulzi/yii2-adjacency-list.git",
+                "reference": "f45908f53e41f4878c5ccd2a4c07b4718b8acc2c"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/paulzi/yii2-adjacency-list/zipball/f45908f53e41f4878c5ccd2a4c07b4718b8acc2c",
+                "reference": "f45908f53e41f4878c5ccd2a4c07b4718b8acc2c",
+                "shasum": ""
+            },
+            "require": {
+                "paulzi/yii2-sortable": "~1.0",
+                "php": ">=5.4.0",
+                "yiisoft/yii2": "~2.0.0"
+            },
+            "require-dev": {
+                "phpunit/dbunit": "~1.0",
+                "phpunit/phpunit": "~4.0"
+            },
+            "type": "yii2-extension",
+            "autoload": {
+                "psr-4": {
+                    "paulzi\\adjacencyList\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "PaulZi",
+                    "email": "pavel.zimakoff@gmail.com"
+                }
+            ],
+            "description": "Adjacency List Behavior for Yii2",
+            "keywords": [
+                "adjacency list",
+                "yii2"
+            ],
+            "support": {
+                "issues": "https://github.com/paulzi/yii2-adjacency-list/issues?state=open",
+                "source": "https://github.com/paulzi/yii2-adjacency-list"
+            },
+            "time": "2018-08-06T07:37:38+00:00"
+        },
+        {
+            "name": "paulzi/yii2-sortable",
+            "version": "v1.0.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/paulzi/yii2-sortable.git",
+                "reference": "b726f85f627d49338030c33605fa0a074cc2f503"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/paulzi/yii2-sortable/zipball/b726f85f627d49338030c33605fa0a074cc2f503",
+                "reference": "b726f85f627d49338030c33605fa0a074cc2f503",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.4.0",
+                "yiisoft/yii2": "~2.0.0"
+            },
+            "require-dev": {
+                "phpunit/dbunit": "~1.0",
+                "phpunit/phpunit": "~4.0"
+            },
+            "type": "yii2-extension",
+            "autoload": {
+                "psr-4": {
+                    "paulzi\\sortable\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "PaulZi",
+                    "email": "pavel.zimakoff@gmail.com"
+                }
+            ],
+            "description": "Sortable Behavior for Yii2",
+            "keywords": [
+                "sortable",
+                "yii2"
+            ],
+            "support": {
+                "issues": "https://github.com/paulzi/yii2-sortable/issues?state=open",
+                "source": "https://github.com/paulzi/yii2-sortable"
+            },
+            "time": "2022-01-10T13:31:37+00:00"
         },
         {
             "name": "rmrevin/yii2-fontawesome",

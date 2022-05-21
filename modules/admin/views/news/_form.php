@@ -22,7 +22,7 @@ use yii\widgets\ActiveForm;
     }
     echo $form->field($model, 'category_id')->widget(kartik\select2\Select2::classname(), [
         'initValueText' => $text, // set the initial display text
-        'options' => ['placeholder' => 'Поиск пользователя по ФИО ...'],
+        'options' => ['placeholder' => 'Поиск категории по названию ...'],
         'pluginOptions' => [
             'allowClear' => true,
             'minimumInputLength' => 3,

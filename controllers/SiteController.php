@@ -65,24 +65,25 @@ class SiteController extends BaseController
      */
     public function actionIndex($category = null)
     {
-        $categories = Category::find()
-            ->filterWhere(['>', '(SELECT count(id) FROM news WHERE category.id = news.category_id and news.active = 1)', 0])
-            ->all();
-
         $dateSort = Yii::$app->request->post('dateSort') ?: Yii::$app->request->get('date-sort');
 
         $categoryExist = null;
+        $categoriesIds = [];
         if ($category) {
-            $categoryExist = ArrayHelper::findObject($categories, function ($item) use ($category) {
-                return $item->name === $category;
-            });
+            $categoryExist = Category::findOne(['name' => $category]);
+            if ($categoryExist) {
+                $descendants = $categoryExist->getDescendants()->all();
+                $categoriesIds = ArrayHelper::getColumn($descendants, 'id');
+            }
+
+            $categoriesIds[] = $categoryExist->id;
         }
 
-        $conditions = ['active' => 1];
-        if ($categoryExist) {
-            $conditions += ['category_id' => $categoryExist->id];
+        $additionalConditions = [] ;
+        if ($categoriesIds) {
+            $additionalConditions = ['in', 'category_id', $categoriesIds];
         }
-        $query = News::find()->where($conditions);
+        $query = News::find()->where(['active' => 1])->andWhere($additionalConditions);
 
         $countQuery = clone $query;
         $pagination = new Pagination(['totalCount' => $countQuery->count(), 'pageSize' => News::PAGE_SIZE]);
@@ -103,7 +104,6 @@ class SiteController extends BaseController
 
         return $this->render('index', [
             'selectedCategory' => $categoryExist,
-            'categories' => $categories,
             'news' => $news,
             'pagination' => $pagination,
             'dateSort' => $dateSort,

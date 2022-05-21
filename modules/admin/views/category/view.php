@@ -1,6 +1,8 @@
 <?php
 
+use app\models\Category;
 use yii\helpers\Html;
+use yii\helpers\Url;
 use yii\widgets\DetailView;
 
 /* @var $this yii\web\View */
@@ -24,19 +26,28 @@ $this->params['breadcrumbs'][] = $this->title;
                 'method' => 'post',
             ],
         ]) ?>
+        <?= Html::a('Сделать корневой', ['make-root', 'id' => $model->id], [
+            'class' => 'btn btn-success',
+            'data' => [
+                'confirm' => 'Вы уверены, что хотите сделать эту категорию корневой?',
+                'method' => 'post',
+            ],
+        ]) ?>
     </p>
 
     <?= DetailView::widget([
         'model' => $model,
         'attributes' => [
             'id',
-            'parent_id',
-            'tree',
-            'lft',
-            'rgt',
-            'depth',
-            'title',
+            [
+                'attribute' => 'parent_id',
+                'value' => $model->parent_id && ($parent = Category::findOne(['id' => $model->parent_id])) ?
+                    Html::a($parent->title, Url::toRoute(['category/view', 'id' => $model->parent_id])) : "",
+                'format' => 'raw'
+            ],
+            'sort',
             'name',
+            'title',
             [
                 'attribute' => 'created',
                 'value' => Yii::$app->formatter->asDatetime($model->created, 'dd MMMM HH:mm'),
