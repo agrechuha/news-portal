@@ -4,9 +4,9 @@ networks:
   app-network:
     driver: bridge
 services:
-  apache:
+  apache-news:
     image: httpd:2.4-alpine
-    container_name: 'apache'
+    container_name: 'apache-news'
     restart: always
     ports:
       - '${HOST_MACHINE_UNSECURE_HOST_PORT}:80'
@@ -14,10 +14,10 @@ services:
       - ./:/var/www/html
       - ./docker/conf/apache/httpd.conf:/usr/local/apache2/conf/httpd.conf
     depends_on:
-      - php
+      - php-news
     networks:
       - app-network
-  php:
+  php-news:
     build:
       context: ./docker/bin/php
       dockerfile: Dockerfile
@@ -34,12 +34,12 @@ services:
       - ./:/var/www/html
       - ./docker/conf/php/php.ini:/usr/local/etc/php/php.ini
     depends_on:
-      - mysql
+      - mysql-news
     networks:
       - app-network
-  mysql:
+  mysql-news:
     image: mysql:5.7
-    container_name: 'mysql5.7'
+    container_name: 'mysql5.7-news'
     restart: always
     ports:
       - "${HOST_MACHINE_MYSQL_PORT}:3306"
@@ -53,12 +53,12 @@ services:
       MYSQL_PASSWORD: ${MYSQL_PASSWORD}
     networks:
       - app-network
-  phpmyadmin:
+  phpmyadmin-news:
     image: phpmyadmin/phpmyadmin
-    container_name: 'phpmyadmin'
+    container_name: 'phpmyadmin-news'
     restart: always
     links:
-      - mysql
+      - mysql-news
     ports:
       - '${PHPMYADMIN_PORT}:80'
     volumes:
@@ -72,6 +72,6 @@ services:
       MYSQL_USER: ${MYSQL_USER}
       MYSQL_PASSWORD: ${MYSQL_PASSWORD}
     depends_on:
-      - mysql
+      - mysql-news
     networks:
       - app-network
