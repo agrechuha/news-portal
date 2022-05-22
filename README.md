@@ -15,7 +15,7 @@ config/db-local-example.php -->  config/db-local.php
 Приложение запущено
 
 При первом запуске приложения необходимо сделать следующее:  
-~ docker-compose exec php bash  
+~ docker-compose exec php-news bash  
 В открытой консоли докер-контейнера нужно выполнить следующие команды:  
 ~ composer install  
 ~ php yii migrate  

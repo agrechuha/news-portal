@@ -28,7 +28,7 @@ services:
       PHP_IDE_CONFIG: "serverName=Docker"
       PHP_ENABLE_XDEBUG: 1
       XDEBUG_MODE: "debug"
-    container_name: 'php7.2'
+    container_name: 'php7.2-news'
     restart: always
     volumes:
       - ./:/var/www/html
