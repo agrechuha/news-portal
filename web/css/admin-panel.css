@@ -1,0 +1,16 @@
+.nav-sm .main_container .top_nav {
+    margin-left: 125px;
+}
+
+.nav-sm .container.body .col-md-3.left_col {
+    width: 125px;
+}
+
+.nav-sm .container.body .right_col {
+    margin-left: 125px;
+}
+
+.nav-sm .nav_title {
+    float: none;
+    margin: 0 auto;
+}
